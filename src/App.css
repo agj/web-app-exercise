@@ -8,9 +8,10 @@
 }
 
 .App {
+  padding: 2em;
   display:flex;
   justify-content: center;
-  padding: 2em;
+  flex-flow: column;
 }
 
 
