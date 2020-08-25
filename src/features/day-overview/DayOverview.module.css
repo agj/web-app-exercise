@@ -1,0 +1,12 @@
+
+.DayOverview {
+  width: 10rem;
+  height: 3rem;
+  margin: 0.3rem;
+  padding: 0.2rem 0.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px silver solid;
+  border-radius: 0.2rem;
+}
