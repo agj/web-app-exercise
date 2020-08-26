@@ -15,17 +15,20 @@ function App() {
       <div className="App">
         <div className="days">
           <Link to="/lunes">
-            <DayOverview day="Lunes" max="17" min="3" />
+            <DayOverview max="17" min="3">Lunes</DayOverview>
           </Link>
           <Link to="/martes">
-            <DayOverview day="Martes" max="17" min="3" />
+            <DayOverview max="17" min="3">Martes</DayOverview>
           </Link>
           <Link to="/miercoles">
-            <DayOverview day="Miércoles" max="17" min="3" />
+            <DayOverview max="17" min="3">Miércoles</DayOverview>
           </Link>
         </div>
 
-        <DayDetails width={ 500 } height={ 500 } />
+        <DayDetails
+          width={ 500 }
+          height={ 500 }
+        />
 
         <Switch>
           <Route path="/lunes">

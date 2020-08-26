@@ -10,22 +10,22 @@ import { pipe, min, max } from 'ramda';
 
 
 
-const data = [
-  { time: 0, temperature: 12 },
-  { time: 3, temperature: 8 },
-  { time: 6, temperature: -2 },
-  { time: 9, temperature: 6 },
-  { time: 12, temperature: 11 },
-  { time: 15, temperature: 17 },
-  { time: 18, temperature: 16 },
-  { time: 21, temperature: 13 },
-];
-
 const x = (d) => d.time;
 const y = (d) => d.temperature;
 
 
 export function DayDetails(props) {
+  const data = [
+    { time: 0, temperature: 12 },
+    { time: 3, temperature: 8 },
+    { time: 6, temperature: -2 },
+    { time: 9, temperature: 6 },
+    { time: 12, temperature: 11 },
+    { time: 15, temperature: 17 },
+    { time: 18, temperature: 16 },
+    { time: 21, temperature: 13 },
+  ];
+
   const width = props.width;
   const height = props.height;
   
