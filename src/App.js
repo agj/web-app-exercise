@@ -25,7 +25,7 @@ function App() {
           </Link>
         </div>
 
-        <DayDetails />
+        <DayDetails width={ 500 } height={ 500 } />
 
         <Switch>
           <Route path="/lunes">
