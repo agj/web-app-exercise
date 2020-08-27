@@ -1,12 +1,19 @@
 
 .DayOverview {
-  width: 12rem;
-  height: 3rem;
+  width: 8rem;
+  height: 4rem;
   margin: 0.3rem;
   padding: 0.2rem 0.4rem;
   display: flex;
+  text-align: center;
   align-items: center;
   justify-content: center;
   border: 1px silver solid;
   border-radius: 0.2rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.DayOverview.selected {
+  background-color: #ffe8ae;
 }

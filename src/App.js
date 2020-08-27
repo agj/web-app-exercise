@@ -9,7 +9,7 @@ function App({ match: { params: { day } }}) {
 
   return (
     <div className="App">
-      <WeatherOverview />
+      <WeatherOverview currentDayIndex={ dayIndex } />
 
       { !isNaN(dayIndex)
         ? <DayDetails

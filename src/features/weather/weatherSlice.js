@@ -1,7 +1,25 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { repeat, range } from 'ramda';
+import { repeat, range, prop, max, min, countBy, identity, nth, toPairs, reduce, map, pipe } from 'ramda';
 import { dayNames, weekDayToIndex } from '../../days';
 import testData from './test-data';
+
+const weatherEmojiMap = {
+  Clear: '☀️',
+  Clouds: '☁️',
+  Rain: '☔️',
+  Drizzle: '☔️',
+  Snow: '❄️',
+  Thunderstorm: '⚡️',
+  Mist: '🌫',
+  Smoke: '🌫',
+  Haze: '🌫',
+  Dust: '🌫',
+  Fog: '🌫',
+  Sand: '🌫',
+  Ash: '🌫',
+  Squall: '🌫',
+  Tornado: '🌫',
+}
 
 export const weatherSlice = createSlice({
   name: 'weather',
@@ -25,17 +43,7 @@ export const weatherSlice = createSlice({
 
 export const { setOverviewWeather, setDayTemperatures } = weatherSlice.actions;
 
-export const retrieveOverviewWeather = () => (dispatch) => {
-  setTimeout(() => {
-    dispatch(setOverviewWeather({ dayIndex: 0, value: { min: -2, max: 15 } }));
-    dispatch(setOverviewWeather({ dayIndex: 1, value: { min: 0, max: 17 } }));
-    dispatch(setOverviewWeather({ dayIndex: 2, value: { min: 3, max: 20 } }));
-    dispatch(setOverviewWeather({ dayIndex: 3, value: { min: 3, max: 21 } }));
-    dispatch(setOverviewWeather({ dayIndex: 4, value: { min: 4, max: 24 } }));
-  }, 3000);
-};
-
-export const retrieveDayTemperatures = (dayIndex) => async (dispatch) => {
+export const retrieveOverviewWeather = () => async (dispatch) => {
   // const response = await fetch(`//api.openweathermap.org/data/2.5/forecast?&q=Region Metropolitana,cl&units=metric&appid=${ process.env.REACT_APP_OPENWEATHERMAP_API_KEY }`);
 
   // if (response.ok) {
@@ -44,13 +52,15 @@ export const retrieveDayTemperatures = (dayIndex) => async (dispatch) => {
   //   raw.list.map()
   // }
 
-  const temperatures = testData.list
-    .map(({ dt, main: { temp } }) => {
+  const temperatures =
+    testData.list
+    .map(({ dt, main: { temp }, weather: [{ main }] }) => {
       const date = new Date(dt * 1000);
       return {
         hour: date.getHours(),
         day: weekDayToIndex(date.getDay()),
         temperature: temp,
+        weather: weatherEmojiMap[main],
       };
     });
 
@@ -58,10 +68,37 @@ export const retrieveDayTemperatures = (dayIndex) => async (dispatch) => {
     range(0, dayNames.length)
     .map(dayIndex => temperatures.filter(({ day }) => day === dayIndex));
 
+  const weatherByDay =
+    temperaturesByDay.map((day) => {
+      const dayTemperatures = day.map(prop('temperature'));
+      const maxT = dayTemperatures.reduce(max);
+      const minT = dayTemperatures.reduce(min);
+      const weather =
+        pipe(
+          map(prop('weather')),
+          countBy(identity),
+          toPairs,
+          reduce((best, cur) => cur[1] > best[1] ? cur : best, ['', 0]),
+          nth(0)
+        )(day);
+
+      return {
+        max: maxT,
+        min: minT,
+        weather,
+      };
+    });
+  
+  weatherByDay.forEach((value, dayIndex) => {
+    dispatch(setOverviewWeather({ dayIndex, value }));
+  });
+
   temperaturesByDay.forEach((temperatures, dayIndex) => {
     dispatch(setDayTemperatures({ dayIndex, value: temperatures }));
   });
-}
+};
+
+export const retrieveDayTemperatures = (dayIndex) => async (dispatch) => { }
 
 export const selectDayOverviewWeather = (dayIndex) => (state) => state.weather.daysOverview[dayIndex];
 

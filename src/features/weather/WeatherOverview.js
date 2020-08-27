@@ -5,7 +5,7 @@ import { selectDayOverviewWeather, retrieveOverviewWeather } from './weatherSlic
 import { dayNames } from '../../days';
 
 
-export function WeatherOverview() {
+export function WeatherOverview({ currentDayIndex }) {
   const data = useSelector(selectDayOverviewWeather(0));
 
   const dispatch = useDispatch();
@@ -18,7 +18,7 @@ export function WeatherOverview() {
   return (
     <div className="days">
       { dayNames.map((dayName, dayIndex) =>
-        <DayOverview key={ dayIndex } dayIndex={ dayIndex }>
+        <DayOverview key={ dayIndex } dayIndex={ dayIndex } currentDayIndex={ currentDayIndex }>
         { dayName }
         </DayOverview>
       ) }
