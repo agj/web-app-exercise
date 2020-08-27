@@ -13,7 +13,7 @@ import * as serviceWorker from './serviceWorker';
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <Router>
+      <Router basename="/web-app-exercise/">
         <Route path="/:day?" component={App} />
       </Router>
     </Provider>
