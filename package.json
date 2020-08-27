@@ -2,6 +2,7 @@
   "name": "exam",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://agj.github.io/web-app-exercise",
   "dependencies": {
     "@reduxjs/toolkit": "^1.4.0",
     "@testing-library/jest-dom": "^4.2.4",
@@ -13,6 +14,7 @@
     "@vx/mock-data": "0.0.198",
     "@vx/scale": "0.0.198",
     "@vx/shape": "0.0.198",
+    "gh-pages": "^3.1.0",
     "ramda": "^0.27.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -24,7 +26,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
