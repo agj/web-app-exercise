@@ -3,17 +3,27 @@ import { createSlice } from '@reduxjs/toolkit';
 export const weatherSlice = createSlice({
   name: 'weather',
   initialState: {
-    daysWeather: [],
+    daysOverview: [],
   },
   reducers: {
-    setDaysWeather: (state, { payload }) => {
-      state.daysWeather = payload;
+    setOverviewWeather: (state, { payload }) => {
+      state.daysOverview = payload;
     },
   },
 });
 
-export const { setDaysWeather } = weatherSlice.actions;
+export const { setOverviewWeather } = weatherSlice.actions;
 
-export const selectDaysWeather = (state) => state.weather.daysWeather;
+export const retrieveOverviewWeather = () => (dispatch) => {
+  setTimeout(() => {
+    dispatch(setOverviewWeather([
+      { min: -2, max: 15 },
+      { min: 0, max: 17 },
+      { min: 3, max: 20 },
+    ]));
+  }, 3000);
+};
+
+export const selectDaysOverviewWeather = (state) => state.weather.daysOverview;
 
 export default weatherSlice.reducer;

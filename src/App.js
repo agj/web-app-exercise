@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { DayOverview } from './features/weather/DayOverview';
 import { DayDetails } from './features/weather/DayDetails';
+import { retrieveOverviewWeather } from './features/weather/weatherSlice';
 import './App.css';
 
-function App({ match: { params: { day } } }) {
+function App({ match: { params: { day } }}) {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(retrieveOverviewWeather());
+  });
+
   return (
     <div className="App">
       <div className="days">
