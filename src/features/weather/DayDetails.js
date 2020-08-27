@@ -11,7 +11,7 @@ import styles from './DayDetails.module.css';
 
 
 
-const x = (d) => d.time;
+const x = (d) => d.hour;
 const y = (d) => d.temperature;
 
 

@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { repeat } from 'ramda';
-import { dayNames } from '../../days';
+import { repeat, range } from 'ramda';
+import { dayNames, weekDayToIndex } from '../../days';
+import testData from './test-data';
 
 export const weatherSlice = createSlice({
   name: 'weather',
@@ -34,20 +35,32 @@ export const retrieveOverviewWeather = () => (dispatch) => {
   }, 3000);
 };
 
-export const retrieveDayTemperatures = (dayIndex) => (dispatch) => {
-  setTimeout(() => {
-    const temperatures = [
-      { time: 0, temperature: 12 },
-      { time: 3, temperature: 8 },
-      { time: 6, temperature: -2 },
-      { time: 9, temperature: 6 },
-      { time: 12, temperature: 11 },
-      { time: 15, temperature: 17 },
-      { time: 18, temperature: 16 },
-      { time: 21, temperature: 13 },
-    ];
-    dispatch(setDayTemperatures({ dayIndex: dayIndex, value: temperatures }));
-  }, 2000);
+export const retrieveDayTemperatures = (dayIndex) => async (dispatch) => {
+  // const response = await fetch(`//api.openweathermap.org/data/2.5/forecast?&q=Region Metropolitana,cl&units=metric&appid=${ process.env.REACT_APP_OPENWEATHERMAP_API_KEY }`);
+
+  // if (response.ok) {
+  //   const raw = await response.json();
+
+  //   raw.list.map()
+  // }
+
+  const temperatures = testData.list
+    .map(({ dt, main: { temp } }) => {
+      const date = new Date(dt * 1000);
+      return {
+        hour: date.getHours(),
+        day: weekDayToIndex(date.getDay()),
+        temperature: temp,
+      };
+    });
+
+  const temperaturesByDay =
+    range(0, dayNames.length)
+    .map(dayIndex => temperatures.filter(({ day }) => day === dayIndex));
+
+  temperaturesByDay.forEach((temperatures, dayIndex) => {
+    dispatch(setDayTemperatures({ dayIndex, value: temperatures }));
+  });
 }
 
 export const selectDayOverviewWeather = (dayIndex) => (state) => state.weather.daysOverview[dayIndex];

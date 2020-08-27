@@ -1,4 +1,4 @@
-import { range } from 'ramda';
+import { range, mathMod } from 'ramda';
 
 const weekDays = [
   'Domingo',
@@ -21,10 +21,12 @@ export const dayNames =
       ? dayName + ' (hoy)'
       : dayName;
   });
-  
+
 export const dayToIndex = (day) => {
   const parsed = parseInt(day);
   return !isNaN(parsed) && parsed >= 0 && parsed < dayNames.length
     ? parsed
     : NaN;
 };
+
+export const weekDayToIndex = (weekDay) => mathMod(weekDay - today, weekDays.length);
