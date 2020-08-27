@@ -14,7 +14,7 @@ const x = (d) => d.time;
 const y = (d) => d.temperature;
 
 
-export function DayDetails(props) {
+export function DayDetails({ width, height, dayIndex }) {
   const data = [
     { time: 0, temperature: 12 },
     { time: 3, temperature: 8 },
@@ -25,9 +25,6 @@ export function DayDetails(props) {
     { time: 18, temperature: 16 },
     { time: 21, temperature: 13 },
   ];
-
-  const width = props.width;
-  const height = props.height;
   
   const margin = {
     top: 30,

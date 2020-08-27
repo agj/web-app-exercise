@@ -1,8 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
-// import counterReducer from '../features/counter/counterSlice';
+import weatherReducer, { setDaysWeather } from '../features/weather/weatherSlice';
 
-export default configureStore({
+const store = configureStore({
   reducer: {
-    // counter: counterReducer,
+    weather: weatherReducer,
   },
 });
+
+export default store;
+
+store.dispatch(setDaysWeather([
+  { min: -2, max: 15 },
+  { min: 0, max: 17 },
+  { min: 3, max: 20 },
+]));
