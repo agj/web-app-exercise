@@ -1,12 +1,13 @@
-
-import React from 'react';
-import styles from './DayDetails.module.css';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Group } from '@vx/group';
 import { LinePath, Circle } from '@vx/shape';
 import { scaleLinear, scaleBand } from '@vx/scale';
 import { AxisLeft, AxisBottom } from '@vx/axis';
 import { GridRows, GridColumns } from '@vx/grid';
 import { pipe, min, max } from 'ramda';
+import { retrieveDayTemperatures, selectDayTemperatures } from './weatherSlice';
+import styles from './DayDetails.module.css';
 
 
 
@@ -15,16 +16,21 @@ const y = (d) => d.temperature;
 
 
 export function DayDetails({ width, height, dayIndex }) {
-  const data = [
-    { time: 0, temperature: 12 },
-    { time: 3, temperature: 8 },
-    { time: 6, temperature: -2 },
-    { time: 9, temperature: 6 },
-    { time: 12, temperature: 11 },
-    { time: 15, temperature: 17 },
-    { time: 18, temperature: 16 },
-    { time: 21, temperature: 13 },
-  ];
+  const data = useSelector(selectDayTemperatures(dayIndex));
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (!data || data.length === 0) {
+      dispatch(retrieveDayTemperatures(dayIndex));
+    }
+  });
+
+  if (!data || data.length === 0) {
+    return (
+      <div className={ styles.DayDetails }>
+      </div>
+    );
+  }
   
   const margin = {
     top: 30,
@@ -45,8 +51,8 @@ export function DayDetails({ width, height, dayIndex }) {
   const yScale = scaleLinear({
     range: [yMax, 0],
     domain: [
-      data.map(y).reduce(min),
-      data.map(y).reduce(max),
+      data.map(y).reduce(min, 0),
+      data.map(y).reduce(max, 0),
     ],
     nice: true,
   });

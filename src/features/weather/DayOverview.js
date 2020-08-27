@@ -1,17 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { selectDaysOverviewWeather } from './weatherSlice';
+import { selectDayOverviewWeather } from './weatherSlice';
 import styles from './DayOverview.module.css';
 
-export function DayOverview(props) {
-  const { children, index } = props;
-  const daysWeather = useSelector(selectDaysOverviewWeather);
+export function DayOverview({ children, dayIndex }) {
+  const weatherOverview = useSelector(selectDayOverviewWeather(dayIndex));
 
-  if (daysWeather[index]) {
-    const { max, min } = daysWeather[index];
+  if (weatherOverview) {
+    const { max, min } = weatherOverview;
     return (
-      <Link to={ `/${ index }` }>
+      <Link to={ `/${ dayIndex }` }>
         <div className={ styles.DayOverview }>
           { children } { max }° / { min }°
         </div>
@@ -20,7 +19,7 @@ export function DayOverview(props) {
   }
 
   return (
-    <Link to={ `/${ index }` }>
+    <Link to={ `/${ dayIndex }` }>
       <div className={ styles.DayOverview }>
         { children } (…)
       </div>

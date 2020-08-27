@@ -1,29 +1,24 @@
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { DayOverview } from './features/weather/DayOverview';
+import React from 'react';
+import { WeatherOverview } from './features/weather/WeatherOverview';
 import { DayDetails } from './features/weather/DayDetails';
-import { retrieveOverviewWeather } from './features/weather/weatherSlice';
+import { dayToIndex } from './days';
 import './App.css';
 
 function App({ match: { params: { day } }}) {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(retrieveOverviewWeather());
-  });
+  const dayIndex = dayToIndex(day);
 
   return (
     <div className="App">
-      <div className="days">
-        <DayOverview index="0" max="17" min="3">Lunes</DayOverview>
-        <DayOverview index="1" max="17" min="3">Martes</DayOverview>
-        <DayOverview index="2" max="17" min="3">Miércoles</DayOverview>
-      </div>
+      <WeatherOverview />
 
-      <DayDetails
-        width={ 500 }
-        height={ 500 }
-        dayIndex={ day }
-      />
+      { !isNaN(dayIndex)
+        ? <DayDetails
+            width={ 500 }
+            height={ 500 }
+            dayIndex={ dayIndex }
+          />
+        : ''
+      }
 
     </div>
   );
