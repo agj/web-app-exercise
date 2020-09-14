@@ -7,7 +7,7 @@ import { AxisLeft, AxisBottom } from '@vx/axis';
 import { GridRows, GridColumns } from '@vx/grid';
 import { pipe, min, max } from 'ramda';
 import { retrieveDayTemperatures, selectDayTemperatures } from './weatherSlice';
-import styles from './DayDetails.module.css';
+// import styles from './DayDetails.module.css';
 
 
 
@@ -27,7 +27,7 @@ export function DayDetails({ width, height, dayIndex }) {
 
   if (!data || data.length === 0) {
     return (
-      <div className={ styles.DayDetails }>
+      <div>
       </div>
     );
   }
@@ -74,7 +74,7 @@ export function DayDetails({ width, height, dayIndex }) {
     });
 
   return (
-    <div className={ styles.DayDetails }>
+    <div>
       <svg width={ width } height={ height }>
         <Group top={ margin.top } left={ margin.left }>
           <GridColumns

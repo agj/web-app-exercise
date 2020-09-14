@@ -1,19 +1,10 @@
 
 .DayOverview {
-  width: 8rem;
-  height: 4rem;
-  margin: 0.3rem;
-  padding: 0.2rem 0.4rem;
-  display: flex;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-  border: 1px silver solid;
-  border-radius: 0.2rem;
-  text-decoration: none;
+  width: 12rem;
   color: inherit;
+  text-decoration: inherit;
 }
-
-.DayOverview.selected {
-  background-color: #ffe8ae;
+.DayOverview:hover {
+  color: inherit;
+  text-decoration: inherit;
 }
