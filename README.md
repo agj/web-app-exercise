@@ -1,68 +1,28 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 
-## Available Scripts
+This was a practical exercise in using some front-end web development frameworks and libraries I had no experience using previously. View it online at [agj.github.io/web-app-exercise/](https://agj.github.io/web-app-exercise/).
 
-In the project directory, you can run:
+✒︎ Este fue un ejercicio práctico para aprender a usar algunas tecnologías de desarrollo web front-end con las que no tenía experiencia. Puedes verlo online en [agj.github.io/web-app-exercise/](https://agj.github.io/web-app-exercise/).
 
-### `npm start`
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Technologies used / ✒︎ Tecnologías utilizadas
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+- [React](https://reactjs.org/) ([create-react-app](https://create-react-app.dev/))
+- [Redux](https://redux.js.org/) (+ [React Redux](https://react-redux.js.org/), [Redux Toolkit](https://redux-toolkit.js.org/))
+- [React Router](https://reactrouter.com/)
+- [reactstrap](https://reactstrap.github.io/) ([Bootstrap](https://getbootstrap.com/))
+- [Ramda](https://ramdajs.com/)
+- [vx](https://vx-demo.now.sh/)
 
-### `npm test`
+## To build / ✒︎ Para compilar
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+A `.env.local` text file with an [OpenWeather](https://openweathermap.org/) API key is needed at the repository's root. Create the file with the format as below, adding the actual API key to the right of the `=` sign.
 
-### `npm run build`
+✒︎ ︎Se necesita un archivo de texto de nombre `.env.local` con la llave de la API de [OpenWeather](https://openweathermap.org/) en la raíz del repositorio. Crea el archivo con el formato que se ve abajo, añadiendo la llave a la derecha del signo `=`.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+REACT_APP_OPENWEATHERMAP_API_KEY=
+```
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+Afterward, run `npm run build` at the command line to make a build, or `npm start` to start a development server.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+✒︎ Después puedes usar en la línea de comandos `npm run build` para compilar, o `npm start` para iniciar un servidor de desarrollo.
