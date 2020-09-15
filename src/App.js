@@ -11,7 +11,7 @@ function App({ match: { params: { day } }}) {
   return (
     <Container className="p-4">
       <Row>
-        <Col sm="4">
+        <Col sm="4" className="mb-4">
           <WeatherOverview currentDay={ dayTime } />
         </Col>
         <Col sm="8" className="text-center my-auto">
@@ -25,6 +25,7 @@ function App({ match: { params: { day } }}) {
                 <Button
                   tag={ NavLink }
                   to="/"
+                  className="mt-4"
                 >
                   Cerrar
                 </Button>
