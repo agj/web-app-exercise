@@ -7,7 +7,6 @@ import { AxisLeft, AxisBottom } from '@vx/axis';
 import { GridRows, GridColumns } from '@vx/grid';
 import { pipe, min, max } from 'ramda';
 import { retrieveDayTemperatures, selectDayTemperatures } from './weatherSlice';
-// import styles from './DayDetails.module.css';
 
 
 
@@ -26,17 +25,14 @@ export function DayDetails({ width, height, day }) {
   });
 
   if (!data || data.length === 0) {
-    return (
-      <div>
-      </div>
-    );
+    return <div></div>;
   }
 
   const margin = {
-    top: 30,
+    top: 6,
     bottom: 30,
     left: 30,
-    right: 30,
+    right: 0,
   };
   
   const xMax = width - margin.left - margin.right;

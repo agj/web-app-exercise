@@ -18,7 +18,7 @@ export function DayOverview({ children, day, currentDay }) {
     <Card
       tag={ NavLink }
       to={ `/${ timeToSlug(day) }` }
-      className={ styles.DayOverview + ' text-center' }
+      className={ styles.DayOverview + ' text-center my-1' }
       color={ isActive ? 'dark' : 'light' }
       inverse={ isActive }
     >
