@@ -51,8 +51,8 @@ export function DayDetails({ width, height, day }) {
   const yScale = scaleLinear({
     range: [yMax, 0],
     domain: [
-      data.map(y).reduce(min, 0),
-      data.map(y).reduce(max, 0),
+      data.map(y).reduce(min, 10),
+      data.map(y).reduce(max, 25),
     ],
     nice: true,
   });
@@ -74,44 +74,45 @@ export function DayDetails({ width, height, day }) {
     });
 
   return (
-    <div>
-      <svg width={ width } height={ height }>
-        <Group top={ margin.top } left={ margin.left }>
-          <GridColumns
-            scale={ xScale }
-            width={ xMax }
-            height={ yMax }
-            stroke="silver"
-          />
-          <GridRows
-            scale={ yScale }
-            width={ xMax }
-            height={ yMax }
-            stroke="silver"
-          />
-          <LinePath
-            data={ data }
-            x={ pipe(x, xScale) }
-            y={ pipe(y, yScale) }
-            stroke="red"
-            strokeWidth={ 1.5 }
-            shapeRendering="geometricPrecision"
-          />
-          <Group>
-            { dots }
-          </Group>
-          <AxisLeft
-            scale={ yScale }
-            tickFormat={ (v) => `${ v.toString() }°` }
-          />
-          <AxisBottom
-            scale={ xScale }
-            top={ yMax }
-            tickFormat={ (v) => `${ v.toString() }:00` }
-          />
+    <svg
+      viewBox={ `0 0 ${ width } ${ height }` }
+      className="img-fluid mx-auto"
+    >
+      <Group top={ margin.top } left={ margin.left }>
+        <GridColumns
+          scale={ xScale }
+          width={ xMax }
+          height={ yMax }
+          stroke="silver"
+        />
+        <GridRows
+          scale={ yScale }
+          width={ xMax }
+          height={ yMax }
+          stroke="silver"
+        />
+        <LinePath
+          data={ data }
+          x={ pipe(x, xScale) }
+          y={ pipe(y, yScale) }
+          stroke="red"
+          strokeWidth={ 1.5 }
+          shapeRendering="geometricPrecision"
+        />
+        <Group>
+          { dots }
         </Group>
-      </svg>
-    </div>
+        <AxisLeft
+          scale={ yScale }
+          tickFormat={ (v) => `${ v.toString() }°` }
+        />
+        <AxisBottom
+          scale={ xScale }
+          top={ yMax }
+          tickFormat={ (v) => `${ v.toString() }:00` }
+        />
+      </Group>
+    </svg>
   );
 }
 

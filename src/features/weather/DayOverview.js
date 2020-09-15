@@ -26,11 +26,11 @@ export function DayOverview({ children, day, currentDay }) {
         <CardTitle tag="h5">
           { children }
         </CardTitle>
-        { !isNaN(max)
+        { weather
           ? <CardText>
               { weather } { Math.round(min) }° ~ { Math.round(max) }°
             </CardText>
-          : <CardText></CardText>
+          : <CardText>⏳</CardText>
         }
       </CardBody>
     </Card>
