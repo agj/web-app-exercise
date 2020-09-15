@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { repeat, range, prop, max, min, countBy, identity, nth, toPairs, reduce, map, pipe, groupBy, mapObjIndexed } from 'ramda';
+import { range, prop, max, min, countBy, identity, nth, toPairs, reduce, map, pipe, groupBy, mapObjIndexed } from 'ramda';
 import { datesEqual } from './days';
 // import testData from './test-data';
 

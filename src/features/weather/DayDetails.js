@@ -32,8 +32,6 @@ export function DayDetails({ width, height, day }) {
     );
   }
 
-  console.log('data', data)
-  
   const margin = {
     top: 30,
     bottom: 30,

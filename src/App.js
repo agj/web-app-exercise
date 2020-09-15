@@ -8,8 +8,6 @@ import { slugToTime } from './features/weather/days';
 function App({ match: { params: { day } }}) {
   const dayTime = slugToTime(day);
 
-  console.log('day', day, dayTime)
-
   return (
     <Container>
       <WeatherOverview currentDay={ dayTime } />
