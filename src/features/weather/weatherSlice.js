@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { repeat, range, prop, max, min, countBy, identity, nth, toPairs, reduce, map, pipe } from 'ramda';
-import { dayNames, weekDayToIndex } from './days';
+import { repeat, range, prop, max, min, countBy, identity, nth, toPairs, reduce, map, pipe, groupBy, mapObjIndexed } from 'ramda';
+import { datesEqual } from './days';
 // import testData from './test-data';
 
 const weatherEmojiMap = {
@@ -21,61 +21,82 @@ const weatherEmojiMap = {
   Tornado: '🌫',
 }
 
+const tdy = new Date();
+const initialOverview =
+  range(0, 5)
+  .map((index) => {
+    const day = new Date(tdy.getTime())
+    day.setDate(day.getDate() + index);
+    return {
+      day: day.getTime(),
+      max: NaN,
+      min: NaN,
+      weather: undefined,
+    };
+  });
+
 export const weatherSlice = createSlice({
   name: 'weather',
   initialState: {
-    daysOverview: Array(dayNames(0).length),
-    daysTemperatures: repeat([], dayNames(0).length),
-    todayIndex: (new Date()).getDay(),
+    overview: initialOverview,
+    temperatures: {},
   },
   reducers: {
-    setOverviewWeather: (state, { payload: { dayIndex, value } }) => {
-      if (dayIndex >= 0 && dayIndex < state.daysOverview.length) {
-        state.daysOverview[dayIndex] = value;
-      }
+    setOverview: (state, { payload }) => {
+      state.overview = payload;
     },
-    setDayTemperatures: (state, { payload: { dayIndex, value } }) => {
-      if (dayIndex >= 0 && dayIndex < state.daysTemperatures.length) {
-        state.daysTemperatures[dayIndex] = value;
-      }
-    },
-    setTodayIndex: (state, { payload }) => {
-      state.todayIndex = payload;
+    setDayTemperatures: (state, { payload: { day, value } }) => {
+      state.temperatures[(new Date(day)).toDateString()] = value;
     },
   },
 });
 
-export const { setOverviewWeather, setDayTemperatures, setTodayIndex } = weatherSlice.actions;
+export const { setOverview, setDayTemperatures } = weatherSlice.actions;
 
-export const retrieveOverviewWeather = () => async (dispatch, getState) => {
+// Selectors
+
+export const selectDays = () => (state) => state.weather.overview.map(({ day }) => day);
+
+export const selectDayOverview =
+  (time) =>
+    (state) =>
+      time
+        ? state.weather.overview.find(
+            ({ day }) => datesEqual(day, time)
+          )
+        : undefined;
+
+export const selectDayTemperatures =
+  (time) =>
+    (state) =>
+      time
+        ? state.weather.temperatures[(new Date(time)).toDateString()]
+        : undefined;
+
+// Retrievers
+
+export const retrieveOverview = () => async (dispatch, getState) => {
   const response = await fetch(`//api.openweathermap.org/data/2.5/forecast?&q=Region Metropolitana,cl&units=metric&appid=${ process.env.REACT_APP_OPENWEATHERMAP_API_KEY }`);
   // const response = { ok: true, json: async () => testData };
 
   if (response.ok) {
     const raw = await response.json();
 
-    const today =
-      (new Date(raw.list[0].dt * 1000))
-      .getDay();
-
     const temperatures =
       raw.list
       .map(({ dt, main: { temp }, weather: [{ main }] }) => {
-        const date = new Date(dt * 1000);
         return {
-          hour: date.getHours(),
-          day: weekDayToIndex(today, date.getDay()),
+          time: dt * 1000,
           temperature: temp,
           weather: weatherEmojiMap[main],
         };
       });
 
     const temperaturesByDay =
-      range(0, dayNames(0).length)
-      .map(dayIndex => temperatures.filter(({ day }) => day === dayIndex));
+      groupBy(({ time }) => (new Date(time)).toDateString(), temperatures);
 
     const weatherByDay =
-      temperaturesByDay.map((day) => {
+      mapObjIndexed((day) => {
         const dayTemperatures = day.map(prop('temperature'));
         const maxT = dayTemperatures.reduce(max);
         const minT = dayTemperatures.reduce(min);
@@ -89,30 +110,24 @@ export const retrieveOverviewWeather = () => async (dispatch, getState) => {
           )(day);
 
         return {
+          day: day[0].time,
           max: maxT,
           min: minT,
           weather,
         };
-      });
+      }, temperaturesByDay);
 
-    dispatch(setTodayIndex(today));
-    
-    weatherByDay.forEach((value, dayIndex) => {
-      dispatch(setOverviewWeather({ dayIndex, value }));
-    });
+    dispatch(setOverview(Object.values(weatherByDay)));
 
-    temperaturesByDay.forEach((temperatures, dayIndex) => {
-      dispatch(setDayTemperatures({ dayIndex, value: temperatures }));
+    Object.keys(temperaturesByDay)
+    .forEach((date) => {
+      const temps = temperaturesByDay[date];
+      dispatch(setDayTemperatures({ day: temps[0].time, value: temps }))
     });
   }
 };
 
-export const retrieveDayTemperatures = (dayIndex) => async (dispatch) => { }
+export const retrieveDayTemperatures = (day) => async (dispatch) => { }
 
-export const selectTodayIndex = () => (state) => state.weather.todayIndex;
-
-export const selectDayOverviewWeather = (dayIndex) => (state) => state.weather.daysOverview[dayIndex];
-
-export const selectDayTemperatures = (dayIndex) => (state) => state.weather.daysTemperatures[dayIndex];
 
 export default weatherSlice.reducer;

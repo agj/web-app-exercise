@@ -11,17 +11,17 @@ import { retrieveDayTemperatures, selectDayTemperatures } from './weatherSlice';
 
 
 
-const x = (d) => d.hour;
+const x = (d) => (new Date(d.time)).getHours();
 const y = (d) => d.temperature;
 
 
-export function DayDetails({ width, height, dayIndex }) {
-  const data = useSelector(selectDayTemperatures(dayIndex));
+export function DayDetails({ width, height, day }) {
+  const data = useSelector(selectDayTemperatures(day));
 
   const dispatch = useDispatch();
   useEffect(() => {
-    if (!data || data.length === 0) {
-      dispatch(retrieveDayTemperatures(dayIndex));
+    if (day && (!data || data.length === 0)) {
+      dispatch(retrieveDayTemperatures(day));
     }
   });
 
@@ -31,6 +31,8 @@ export function DayDetails({ width, height, dayIndex }) {
       </div>
     );
   }
+
+  console.log('data', data)
   
   const margin = {
     top: 30,

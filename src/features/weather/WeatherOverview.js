@@ -1,27 +1,30 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DayOverview } from './DayOverview';
-import { selectDayOverviewWeather, retrieveOverviewWeather, selectTodayIndex } from './weatherSlice';
-import { dayNames } from './days';
+import { selectDayOverview, selectDays, retrieveOverview } from './weatherSlice';
+import { dayName } from './days';
 
 
-export function WeatherOverview({ currentDayIndex }) {
-  console.log('currentDayIndex', currentDayIndex)
-  const data = useSelector(selectDayOverviewWeather(0));
-  const todayIndex = useSelector(selectTodayIndex());
+export function WeatherOverview({ currentDay }) {
+  const days = useSelector(selectDays());
+  const data = useSelector(selectDayOverview(days[0]));
 
   const dispatch = useDispatch();
   useEffect(() => {
-    if (!data) {
-      dispatch(retrieveOverviewWeather());
+    if (!data || !data.weather) {
+      dispatch(retrieveOverview());
     }
   });
 
   return (
     <div>
-      { dayNames(todayIndex).map((dayName, dayIndex) =>
-        <DayOverview key={ dayIndex } dayIndex={ dayIndex } currentDayIndex={ currentDayIndex }>
-          { dayName }
+      { days.map((dayTime) =>
+        <DayOverview
+          key={ (new Date(dayTime)).toDateString() }
+          day={ dayTime }
+          currentDay={ currentDay }
+        >
+          { dayName(dayTime) }
         </DayOverview>
       ) }
     </div>

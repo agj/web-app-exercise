@@ -2,14 +2,14 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Card, CardBody, CardTitle, CardText } from 'reactstrap';
 import { useSelector } from 'react-redux';
-import { selectDayOverviewWeather } from './weatherSlice';
+import { selectDayOverview } from './weatherSlice';
+import { timeToSlug, datesEqual } from './days';
 import styles from './DayOverview.module.css';
 
-export function DayOverview({ children, dayIndex, currentDayIndex }) {
-  // const classNames = styles.DayOverview + ' ' + (dayIndex === currentDayIndex ? styles.selected : '')
-  const isActive = dayIndex === currentDayIndex;
+export function DayOverview({ children, day, currentDay }) {
+  const isActive = datesEqual(day, currentDay);
 
-  const weatherOverview = useSelector(selectDayOverviewWeather(dayIndex));
+  const weatherOverview = useSelector(selectDayOverview(day));
   const { max, min, weather } = weatherOverview
     ? weatherOverview
     : { max: null, min: null, weather: null };
@@ -17,7 +17,7 @@ export function DayOverview({ children, dayIndex, currentDayIndex }) {
   return (
     <Card
       tag={ NavLink }
-      to={ `/${ dayIndex }` }
+      to={ `/${ timeToSlug(day) }` }
       className={ styles.DayOverview + ' text-center' }
       color={ isActive ? 'dark' : 'light' }
       inverse={ isActive }
