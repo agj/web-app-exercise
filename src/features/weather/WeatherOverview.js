@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DayOverview } from './DayOverview';
-import { selectDayOverviewWeather, retrieveOverviewWeather } from './weatherSlice';
-import { dayNames } from '../../days';
+import { selectDayOverviewWeather, retrieveOverviewWeather, selectTodayIndex } from './weatherSlice';
+import { dayNames } from './days';
 
 
 export function WeatherOverview({ currentDayIndex }) {
+  console.log('currentDayIndex', currentDayIndex)
   const data = useSelector(selectDayOverviewWeather(0));
+  const todayIndex = useSelector(selectTodayIndex());
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -16,10 +18,10 @@ export function WeatherOverview({ currentDayIndex }) {
   });
 
   return (
-    <div className="days">
-      { dayNames.map((dayName, dayIndex) =>
+    <div>
+      { dayNames(todayIndex).map((dayName, dayIndex) =>
         <DayOverview key={ dayIndex } dayIndex={ dayIndex } currentDayIndex={ currentDayIndex }>
-        { dayName }
+          { dayName }
         </DayOverview>
       ) }
     </div>

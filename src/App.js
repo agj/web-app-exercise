@@ -1,17 +1,17 @@
 import React from 'react';
-import { Button } from 'reactstrap';
+import { Container } from 'reactstrap';
 import { WeatherOverview } from './features/weather/WeatherOverview';
 import { DayDetails } from './features/weather/DayDetails';
-import { dayToIndex } from './days';
+import { dayToIndex } from './features/weather/days';
 // import './App.css';
 
 function App({ match: { params: { day } }}) {
   const dayIndex = dayToIndex(day);
 
-  return (
-    <div className="App">
-      <Button color="primary">Hola</Button>
+  console.log('day', day, typeof day, dayIndex)
 
+  return (
+    <Container>
       <WeatherOverview currentDayIndex={ dayIndex } />
 
       { !isNaN(dayIndex)
@@ -23,7 +23,7 @@ function App({ match: { params: { day } }}) {
         : ''
       }
 
-    </div>
+    </Container>
   );
 }
 
